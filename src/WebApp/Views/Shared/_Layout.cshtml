@@ -1,0 +1,102 @@
+﻿@model WebApp.Models.VMIndex
+
+@using Core.Helpers.System
+@using WebApp.Helpers
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Mantap Portal | @Model.PageTitle</title>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <link rel="stylesheet" href="~/lib/fontawesome-free/css/all.min.css">
+    @RenderSection("Styles", required: false)
+
+    <link rel="stylesheet" href="~/css/adminlte.min.css">
+    <link rel="stylesheet" href="~/css/app.css" asp-append-version="true">
+
+    @RenderSection("StylesInline", required: false)
+</head>
+<body class="hold-transition layout-top-nav layout-navbar-fixed">
+    <div class="wrapper">
+        <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
+            <div class="container">
+                <a href="@Url.Action("Index", "Dashboard")" class="navbar-brand">
+                    <span class="brand-text font-weight-light">Mantap Portal</span>
+                </a>
+                @if (User.GetRole() == UserRole.ADMIN)
+                {
+                    <div class="collapse navbar-collapse order-3" id="navbarCollapse">
+                        <ul class="navbar-nav">
+                            <li class="nav-item dropdown">
+                                <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">
+                                    <i class="fas fa-cogs"></i>&nbsp; Configuration
+                                </a>
+                                <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
+                                    <li>
+                                        <a href="@Url.Action("Index", "Application")" class="dropdown-item">
+                                            <i class="@ViewIcon.AppIcon"></i>&nbsp; Application
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("Index", "User")" class="dropdown-item">
+                                            <i class="@ViewIcon.UserIcon"></i>&nbsp; User
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                }
+                <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
+                    <li class="nav-item dropdown">
+                        <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">
+                            Hello, @User.GetName()
+                        </a>
+                        <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
+                            <li>
+                                <a href="@Url.Action("ChangePassword", "User")" class="dropdown-item">
+                                    <i class="fas fa-unlock-alt"></i>&nbsp; Change Password
+                                </a>
+                            </li>
+                            <li class="dropdown-divider"></li>
+                            <li>
+                                <a href="@Url.Action("Index", "Logout")" class="dropdown-item">
+                                    <i class="fas fa-sign-out-alt"></i>&nbsp; Logout
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <div class="content-wrapper">
+            <div class="content-header">
+                <div class="container">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1 class="m-0"><i class="@Model.HeaderIcon"></i>&nbsp; @Model.HeaderName</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content">
+                <div class="container">
+                    @RenderBody()
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/jquery.min.js"></script>
+    <script src="~/lib/bootstrap//bootstrap.bundle.min.js"></script>
+    @RenderSection("Scripts", required: false)
+
+    <script src="~/js/adminlte.min.js"></script>
+    <script src="~/js/app.js" asp-append-version="true"></script>
+
+    @RenderSection("ScriptsInline", required: false)
+</body>
+</html>

@@ -1,3 +1,4 @@
+using Domain;
 using Infrastructure;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
@@ -7,6 +8,16 @@ builder.Services
     .AddAppDbContext(builder.Configuration.GetConnectionString("DefaultConnection"))
     .AddAppRepositories()
     .AddAppServices();
+
+builder.Services.AddAutoMapper(typeof(AutoMapProfile));
+
+builder.Services
+    .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Login";
+        options.LogoutPath = "/Logout";
+    });
 
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
@@ -28,6 +39,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Dashboard}/{action=Index}");
 
 app.Run();
